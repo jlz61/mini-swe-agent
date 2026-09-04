@@ -144,12 +144,15 @@ def process_instance(
 
     try:
         env = get_sb_environment(config, instance)
-        agent = ProgressTrackingAgent(
+        from minisweagent.run.benchmarks.visible_counterexample_guard import create_benchmark_agent
+
+        agent = create_benchmark_agent(
+            config,
+            instance_dir,
             model,
             env,
             progress_manager=progress_manager,
             instance_id=instance_id,
-            **config.get("agent", {}),
         )
         info = agent.run(task)
         exit_status = info.get("exit_status")
